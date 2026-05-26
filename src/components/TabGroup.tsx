@@ -27,7 +27,7 @@ interface TabGroupProps {
   onGenerateTags?: (groupId: string) => void;
 }
 
-export function TabGroup({ group, onToggleKeepOpen, inactiveThreshold, groups, onSuggestionAccept, onClose, onColorChange, selectedTabIds, onTabSelect, tabSortBy = 'name', tabSortDirection = 'asc', onGenerateTags }: TabGroupProps) {
+export function TabGroup({ group, onToggleKeepOpen, inactiveThreshold, groups: _groups, onSuggestionAccept: _onSuggestionAccept, onClose, onColorChange, selectedTabIds, onTabSelect, tabSortBy = 'name', tabSortDirection = 'asc', onGenerateTags }: TabGroupProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: group.id });
 
   const style = {
