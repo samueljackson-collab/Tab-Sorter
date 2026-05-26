@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Selecto from 'react-selecto';
-import { DndContext, closestCenter } from '@dnd-kit/core';
+import { DndContext } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { mockTabs, mockGroups } from './mock-data';
 import { Tab, TabGroup as TabGroupType, SavedSession, Folder } from './types';

@@ -4,7 +4,6 @@
  */
 
 import { motion } from 'motion/react';
-import { Tab } from '../types';
 
 interface EndOfDayModalProps {
   onClose: () => void;

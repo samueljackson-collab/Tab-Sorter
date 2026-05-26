@@ -7,12 +7,11 @@ import React, { useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, useDragControls } from 'motion/react';
 import { Folder, TabGroup as TabGroupType } from '../types';
-import { ChevronDown, Edit, Trash2, Share2, Save, Search, SortAsc, Palette, Folder as FolderIcon, Briefcase, Home, Globe, CheckSquare, Square, Code, Music, Video, Book, Coffee, Heart, Star, Zap, Settings, Download, X, Monitor, Layout, FileText, Cloud, Database, Shield, Activity, Terminal } from 'lucide-react';
+import { ChevronDown, Trash2, Share2, Search, SortAsc, Folder as FolderIcon, Briefcase, Home, Globe, CheckSquare, Square, Code, Music, Video, Book, Coffee, Heart, Star, Zap, Settings, Download, X, Monitor, Layout, FileText, Cloud, Database, Shield, Activity, Terminal } from 'lucide-react';
 import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { HexColorPicker } from 'react-colorful';
 import { TabGroup } from './TabGroup';
-import { ColorPicker } from './ColorPicker';
 
 interface FolderItemProps {
   key?: string | number;
@@ -148,7 +147,7 @@ export function FolderItem({
   };
 
   const filteredAndSortedGroups = useMemo(() => {
-    let result = folder.groups.filter(g => 
+    const result = folder.groups.filter(g =>
       g.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
