@@ -7,6 +7,8 @@ import { GoogleGenAI } from '@google/genai';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
+const MODEL = 'gemini-2.5-flash';
+
 export async function getAISortingSuggestions(
   tabs: { title: string; url: string; id: string }[],
   existingGroups: { name: string; id: string }[],
@@ -17,7 +19,6 @@ export async function getAISortingSuggestions(
     return null;
   }
 
-  const model = 'gemini-3-flash-preview';
   const prompt = `
     You are an expert at organizing browser tabs.
     Your task is to sort the following list of tabs into logical groups.
@@ -56,8 +57,8 @@ export async function getAISortingSuggestions(
 
   try {
     const response = await ai.models.generateContent({
-        model,
-        contents: prompt,
+      model: MODEL,
+      contents: prompt,
     });
     const jsonString = response.text.trim().replace(/```json|```/g, '');
     return JSON.parse(jsonString);
@@ -76,17 +77,16 @@ export async function generateTagsForGroup(
   }
 
   try {
-    const model = 'gemini-3-flash-preview';
     const prompt = `Given the following list of tabs in a group:\n${tabs.map(t => `- ${t.title} (${t.url})`).join('\n')}\n\nGenerate 3 to 5 concise tags (single words or short phrases) that best describe the content of this group. Return the result as a JSON array of strings.`;
 
     const response = await ai.models.generateContent({
-        model,
-        contents: prompt,
-        config: {
-          responseMimeType: "application/json",
-        }
+      model: MODEL,
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+      }
     });
-    
+
     const jsonString = response.text.trim();
     return JSON.parse(jsonString);
   } catch (error) {
@@ -96,29 +96,24 @@ export async function generateTagsForGroup(
 }
 
 export async function suggestGroupForTab(
-
   tab: { title: string; url: string },
   groupNames: string[]
 ): Promise<string | null> {
   if (!process.env.GEMINI_API_KEY) {
     console.error('GEMINI_API_KEY is not set.');
-    // Simulate a delay and return a mock response for UI development
     await new Promise(resolve => setTimeout(resolve, 1000));
     return groupNames[Math.floor(Math.random() * groupNames.length)];
   }
 
   try {
-    const model = 'gemini-3-flash-preview';
     const prompt = `Given the following tab information:\nTitle: ${tab.title}\nURL: ${tab.url}\n\nCategorize this tab into one of the following existing groups: ${groupNames.join(', ')}.\n\nRespond with only the name of the most appropriate group. Do not add any other text or explanation.`;
 
     const response = await ai.models.generateContent({
-        model,
-        contents: prompt,
+      model: MODEL,
+      contents: prompt,
     });
-    
-    const suggestion = response.text.trim();
 
-    // Basic validation to ensure the suggestion is one of the group names
+    const suggestion = response.text.trim();
     if (groupNames.includes(suggestion)) {
       return suggestion;
     }
