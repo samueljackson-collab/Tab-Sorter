@@ -25,7 +25,8 @@ Tab Sorter AI is a web application that helps you organize, manage, and clean up
 - **Memory Saving Mode** — Auto-closes inactive tabs after a configurable threshold
 - **Session Saving** — Save your current tabs at end-of-day and restore them later
 - **Auto-Tagging** — AI generates descriptive tags for each tab group
-- **Batch Operations** — Select multiple tabs or folders for bulk actions
+- **Batch Operations** — Select multiple tabs or folders for bulk actions (pin, close, rename, group)
+- **Folder Organization** — Sort, search, and view folders in list, grid, or compact layouts; group folders by category
 - **Dark Mode** — Full dark mode support with customizable theme colors
 - **Sharing** — Generate shareable links for folders
 
