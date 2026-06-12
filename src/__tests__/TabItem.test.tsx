@@ -3,6 +3,18 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { TabItem } from '../components/TabItem';
 import type { Tab } from '../types';
 
+// TabItem -> AIGroupSuggester -> geminiService imports @google/genai at module
+// load time and throws if no API key is configured. Mock it to avoid that.
+const mockGenerateContent = vi.hoisted(() => vi.fn());
+
+vi.mock('@google/genai', () => ({
+  GoogleGenAI: vi.fn().mockImplementation(() => ({
+    models: {
+      generateContent: mockGenerateContent,
+    },
+  })),
+}));
+
 const RECENT_DATE = new Date(Date.now() - 1000 * 60 * 5); // 5 minutes ago
 const OLD_DATE = new Date(Date.now() - 1000 * 60 * 60 * 24 * 10); // 10 days ago
 
