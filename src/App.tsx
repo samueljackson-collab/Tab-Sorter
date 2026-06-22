@@ -5,7 +5,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Selecto from 'react-selecto';
-import { DndContext } from '@dnd-kit/core';
+import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { mockTabs, mockGroups } from './mock-data';
 import { Tab, TabGroup as TabGroupType, SavedSession, Folder } from './types';
@@ -310,7 +310,7 @@ export default function App() {
     setNewFolderName('');
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
@@ -616,6 +616,7 @@ export default function App() {
             <button
               onClick={() => setIsSettingsOpen(true)}
               className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
+              title="Settings"
             >
               <Settings size={18} />
             </button>
@@ -662,7 +663,16 @@ export default function App() {
                 <div className="flex items-center gap-2">
                   <select
                     value={folderSortBy}
-                    onChange={(e) => setFolderSortBy(e.target.value as any)}
+                    onChange={(e) =>
+                      setFolderSortBy(
+                        e.target.value as
+                          | 'manual'
+                          | 'name'
+                          | 'groupCount'
+                          | 'createdAt'
+                          | 'updatedAt'
+                      )
+                    }
                     className="px-2 py-2 text-xs font-medium bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg outline-none text-slate-600 dark:text-slate-400 focus:border-indigo-500"
                   >
                     <option value="manual">Manual</option>

@@ -6,7 +6,7 @@ Use this checklist before every production release. All items must be checked be
 
 ## 1. Test Coverage Gate
 
-- [ ] Run `npm test` — all **30 tests** pass with zero failures
+- [ ] Run `npm test` — all **60 tests** pass with zero failures
 - [ ] Run `npm run test:coverage` — overall line coverage is at or above the project threshold
 - [ ] Open `coverage/index.html` and confirm no uncovered critical paths in `src/services/geminiService.ts` or `src/types.ts`
 - [ ] No tests are skipped with `.skip` or `xit` unless there is a documented reason in a comment

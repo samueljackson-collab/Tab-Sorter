@@ -185,7 +185,9 @@ export function SettingsPanel({ onClose, settings, onSettingsChange }: SettingsP
           <div className="space-y-2">
             <select
               value={settings.tabPersistence}
-              onChange={(e) => onSettingsChange({ tabPersistence: e.target.value as any })}
+              onChange={(e) =>
+                onSettingsChange({ tabPersistence: e.target.value as 'forever' | 'month' | 'week' })
+              }
               className="w-full p-2 text-sm border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 dark:focus:border-indigo-500"
             >
               <option value="forever">Keep Forever</option>

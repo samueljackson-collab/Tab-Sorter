@@ -333,11 +333,11 @@ npm run test:watch
 npm run test:coverage
 ```
 
-### What the 30 tests cover
+### What the 60 tests cover
 
-The test suite lives in `src/__tests__/` and contains two files:
+The test suite lives in `src/__tests__/` and contains five files:
 
-**`geminiService.test.ts`** — 22 tests covering the three exported functions in `src/services/geminiService.ts`:
+**`geminiService.test.ts`** — 11 tests covering the three exported functions in `src/services/geminiService.ts`:
 
 | Describe block | Tests |
 |----------------|-------|
@@ -355,7 +355,13 @@ The test suite lives in `src/__tests__/` and contains two files:
 | `Settings type` | Accepts all required settings fields; accepts valid `autoSave` enum values |
 | `SavedSession type` | Accepts required fields |
 
-All tests use `vitest` + `jsdom`. The `@google/genai` SDK is mocked via `vi.mock` at the top of `geminiService.test.ts` so no real API calls are made during testing.
+**`TabItem.test.tsx`** — 18 component tests covering rendering, drag handles, keep-open toggling, and close interactions for an individual tab card.
+
+**`components/GroupPanel.test.tsx`** — 17 component tests covering the `TabGroup` panel: rendering tabs, toggling collapse/expand, group-level actions (color change, AI tag generation, suggestion accept/decline).
+
+**`components/App.test.tsx`** — 6 tests covering top-level app rendering, header buttons, and the end-of-day footer.
+
+All tests use `vitest` + `jsdom` + `@testing-library/react`. The `@google/genai` SDK is mocked via `vi.mock` at the top of any test file that imports a module depending on it, so no real API calls are made during testing.
 
 ### Adding new tests
 
@@ -399,7 +405,7 @@ Before deploying, run all quality checks:
 npm run typecheck      # TypeScript — zero errors required
 npm run lint           # ESLint + TypeScript checks
 npm run format:check   # Prettier formatting check
-npm test               # All 30 tests must pass
+npm test               # All 60 tests must pass
 ```
 
 ### Previewing the production build locally

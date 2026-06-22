@@ -99,32 +99,6 @@ export function AIGroupSuggester({ tab, groups, onSuggestionAccept }: AIGroupSug
     );
   }
 
-  if (error) {
-    return (
-      <div className="flex items-center gap-2 text-xs">
-        <span className="text-slate-500">Manual Action:</span>
-        <select
-          onChange={(e) => onSuggestionAccept(tab.id, e.target.value)}
-          className="text-xs border border-slate-300 rounded p-1"
-        >
-          <option value="">Assign to...</option>
-          {groups.map((g) => (
-            <option key={g.id} value={g.name}>
-              {g.name}
-            </option>
-          ))}
-        </select>
-        <button
-          onClick={handleSuggest}
-          className="p-1 rounded-full text-slate-400 hover:text-indigo-500"
-          title="Retry Suggestion"
-        >
-          <Wand2 size={14} />
-        </button>
-      </div>
-    );
-  }
-
   return (
     <button
       onClick={handleSuggest}

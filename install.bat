@@ -1,8 +1,8 @@
 @echo off
 :: =============================================================================
 :: Tab Sorter AI — Windows Install Script
-:: Checks Node.js, copies .env.example, installs dependencies, builds the app,
-:: and prints available npm scripts.
+:: Checks Node.js, copies .env.example, installs dependencies, runs the test
+:: suite, and prints available npm scripts.
 :: =============================================================================
 
 setlocal enabledelayedexpansion
@@ -68,25 +68,31 @@ if exist ".env" (
 echo.
 echo [3/4] Installing dependencies...
 
-npm install
+if exist "package-lock.json" (
+    echo Running: npm ci  (reproducible install from lock file)
+    npm ci
+) else (
+    echo No package-lock.json found -- running: npm install
+    npm install
+)
 if errorlevel 1 (
-    echo [ERR] npm install failed. Check the output above for details.
+    echo [ERR] Dependency install failed. Check the output above for details.
     exit /b 1
 )
 
 echo [ OK ] Dependencies installed
 
-:: ── Step 4: Build ────────────────────────────────────────────────────────────
+:: ── Step 4: Run tests (non-fatal) ────────────────────────────────────────────
 echo.
-echo [4/4] Building for production...
+echo [4/4] Running test suite...
 
-npm run build
+call npm test -- --run
 if errorlevel 1 (
-    echo [ERR] Build failed. Run "npm run lint" and "npm run typecheck" to diagnose.
-    exit /b 1
+    echo [WARN] Some tests failed -- the app may still work, but review the output above.
+    echo [WARN] Run "npm test" manually to investigate.
+) else (
+    echo [ OK ] All tests passed
 )
-
-echo [ OK ] Production build complete (dist/)
 
 :: ── Print usage ───────────────────────────────────────────────────────────────
 echo.

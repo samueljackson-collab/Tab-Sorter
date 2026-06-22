@@ -157,15 +157,19 @@ describe('TabGroup — expand/collapse interaction', () => {
 describe('TabGroup — group-level actions', () => {
   it('calls onColorChange when a new color is selected via ColorPicker', () => {
     const { onColorChange } = renderGroup();
-    // Open the color picker swatch button
-    const buttons = screen.getAllByRole('button');
-    fireEvent.click(buttons[0]);
-    // After opening, color swatches should be present; click one if available
-    const swatches = document.querySelectorAll('[style*="background"]');
-    expect(swatches.length).toBeGreaterThan(0);
-    // We can't fully simulate react-colorful drag interactions in jsdom reliably,
-    // so just confirm onColorChange was not called yet without user action.
-    expect(onColorChange).not.toHaveBeenCalled();
+    // Open the color picker by clicking the swatch toggle button (identified
+    // by its inline backgroundColor style, since it has no accessible name).
+    const swatchButton = screen
+      .getAllByRole('button')
+      .find((button) => button.style.backgroundColor);
+    expect(swatchButton).toBeDefined();
+    fireEvent.click(swatchButton!);
+    // The hex text input is the most reliable way to drive a color change in
+    // jsdom, since react-colorful's gradient picker relies on pointer drag
+    // events that jsdom doesn't simulate.
+    const hexInput = screen.getByDisplayValue(/^#/);
+    fireEvent.change(hexInput, { target: { value: '#abcdef' } });
+    expect(onColorChange).toHaveBeenCalledWith('group-1', '#abcdef');
   });
 
   it('calls onGenerateTags with the group id when the AI tag button is clicked', () => {

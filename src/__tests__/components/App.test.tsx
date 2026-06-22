@@ -27,6 +27,7 @@ describe('App', () => {
   it('renders the AI Sorter and Settings buttons in the header', () => {
     render(<App />);
     expect(screen.getByTitle('AI Sorter')).toBeInTheDocument();
+    expect(screen.getByTitle('Settings')).toBeInTheDocument();
   });
 
   it('renders the end-of-day footer button', () => {

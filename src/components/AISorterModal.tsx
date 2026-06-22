@@ -16,6 +16,12 @@ interface AISorterModalProps {
   onClose: () => void;
 }
 
+interface AIGroupSuggestion {
+  id: string;
+  name: string;
+  tabs: string[];
+}
+
 export function AISorterModal({ tabs, groups, onApply, onClose }: AISorterModalProps) {
   const [userPreference, setUserPreference] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +41,7 @@ export function AISorterModal({ tabs, groups, onApply, onClose }: AISorterModalP
 
     if (result) {
       // Reconstruct full tab objects in the suggestions
-      const newGroups = result.map((groupSuggestion: any) => ({
+      const newGroups = result.map((groupSuggestion: AIGroupSuggestion) => ({
         ...groupSuggestion,
         tabs: groupSuggestion.tabs
           .map((tabId: string) => tabs.find((t) => t.id === tabId))
