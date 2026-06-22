@@ -68,7 +68,15 @@ function renderGroup(overrides: Partial<TabGroupType> = {}, props: Record<string
     </DndContext>
   );
 
-  return { ...utils, onToggleKeepOpen, onSuggestionAccept, onClose, onColorChange, onTabSelect, onGenerateTags };
+  return {
+    ...utils,
+    onToggleKeepOpen,
+    onSuggestionAccept,
+    onClose,
+    onColorChange,
+    onTabSelect,
+    onGenerateTags,
+  };
 }
 
 describe('TabGroup — rendering', () => {

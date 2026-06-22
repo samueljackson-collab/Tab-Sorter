@@ -1,5 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { getAISortingSuggestions, generateTagsForGroup, suggestGroupForTab } from '../services/geminiService';
+import {
+  getAISortingSuggestions,
+  generateTagsForGroup,
+  suggestGroupForTab,
+} from '../services/geminiService';
 
 const mockGenerateContent = vi.hoisted(() => vi.fn());
 

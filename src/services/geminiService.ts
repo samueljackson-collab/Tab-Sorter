@@ -24,10 +24,10 @@ export async function getAISortingSuggestions(
     Your task is to sort the following list of tabs into logical groups.
 
     Here are the tabs to sort:
-    ${tabs.map(t => `- ${t.title} (URL: ${t.url}) (ID: ${t.id})`).join('\n')}
+    ${tabs.map((t) => `- ${t.title} (URL: ${t.url}) (ID: ${t.id})`).join('\n')}
 
     Here are the existing groups you can use:
-    ${existingGroups.map(g => `- ${g.name} (ID: ${g.id})`).join('\n')}
+    ${existingGroups.map((g) => `- ${g.name} (ID: ${g.id})`).join('\n')}
 
     The user's sorting preference is: "${userPreference}"
 
@@ -77,14 +77,14 @@ export async function generateTagsForGroup(
   }
 
   try {
-    const prompt = `Given the following list of tabs in a group:\n${tabs.map(t => `- ${t.title} (${t.url})`).join('\n')}\n\nGenerate 3 to 5 concise tags (single words or short phrases) that best describe the content of this group. Return the result as a JSON array of strings.`;
+    const prompt = `Given the following list of tabs in a group:\n${tabs.map((t) => `- ${t.title} (${t.url})`).join('\n')}\n\nGenerate 3 to 5 concise tags (single words or short phrases) that best describe the content of this group. Return the result as a JSON array of strings.`;
 
     const response = await ai.models.generateContent({
       model: MODEL,
       contents: prompt,
       config: {
-        responseMimeType: "application/json",
-      }
+        responseMimeType: 'application/json',
+      },
     });
 
     const jsonString = response.text.trim();
@@ -101,7 +101,7 @@ export async function suggestGroupForTab(
 ): Promise<string | null> {
   if (!process.env.GEMINI_API_KEY) {
     console.error('GEMINI_API_KEY is not set.');
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     return groupNames[Math.floor(Math.random() * groupNames.length)];
   }
 
