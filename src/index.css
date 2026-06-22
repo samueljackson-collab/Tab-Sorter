@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-theme: var(--theme-color);
@@ -36,4 +36,3 @@
   width: 16px !important;
   height: 16px !important;
 }
-

@@ -57,12 +57,12 @@ export const mockGroups: TabGroup[] = [
     id: 'g1',
     name: 'Development',
     color: '#3b82f6',
-    tabs: mockTabs.filter(t => ['2', '3', '5'].includes(t.id)),
+    tabs: mockTabs.filter((t) => ['2', '3', '5'].includes(t.id)),
   },
   {
     id: 'g2',
     name: 'AI Tools',
     color: '#8b5cf6',
-    tabs: mockTabs.filter(t => t.id === '1'),
+    tabs: mockTabs.filter((t) => t.id === '1'),
   },
 ];

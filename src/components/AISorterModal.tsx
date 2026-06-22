@@ -16,6 +16,12 @@ interface AISorterModalProps {
   onClose: () => void;
 }
 
+interface AIGroupSuggestion {
+  id: string;
+  name: string;
+  tabs: string[];
+}
+
 export function AISorterModal({ tabs, groups, onApply, onClose }: AISorterModalProps) {
   const [userPreference, setUserPreference] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -28,16 +34,18 @@ export function AISorterModal({ tabs, groups, onApply, onClose }: AISorterModalP
     setSuggestions(null);
 
     const result = await getAISortingSuggestions(
-      tabs.map(t => ({ id: t.id, title: t.title, url: t.url })),
-      groups.map(g => ({ id: g.id, name: g.name })),
+      tabs.map((t) => ({ id: t.id, title: t.title, url: t.url })),
+      groups.map((g) => ({ id: g.id, name: g.name })),
       userPreference
     );
 
     if (result) {
       // Reconstruct full tab objects in the suggestions
-      const newGroups = result.map((groupSuggestion: any) => ({
+      const newGroups = result.map((groupSuggestion: AIGroupSuggestion) => ({
         ...groupSuggestion,
-        tabs: groupSuggestion.tabs.map((tabId: string) => tabs.find(t => t.id === tabId)).filter(Boolean)
+        tabs: groupSuggestion.tabs
+          .map((tabId: string) => tabs.find((t) => t.id === tabId))
+          .filter(Boolean),
       }));
       setSuggestions(newGroups);
     } else {
@@ -48,7 +56,7 @@ export function AISorterModal({ tabs, groups, onApply, onClose }: AISorterModalP
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -60,15 +68,23 @@ export function AISorterModal({ tabs, groups, onApply, onClose }: AISorterModalP
             <Sparkles size={20} className="text-indigo-600 dark:text-indigo-400" />
             AI-Powered Tab Sorter
           </h2>
-          <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
+          >
             <X size={18} />
           </button>
         </header>
 
         <main className="flex-grow p-4 overflow-y-auto space-y-4">
           <div>
-            <label htmlFor="user-preference" className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1 block">Sorting Preference (optional)</label>
-            <textarea 
+            <label
+              htmlFor="user-preference"
+              className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1 block"
+            >
+              Sorting Preference (optional)
+            </label>
+            <textarea
               id="user-preference"
               value={userPreference}
               onChange={(e) => setUserPreference(e.target.value)}
@@ -81,13 +97,19 @@ export function AISorterModal({ tabs, groups, onApply, onClose }: AISorterModalP
 
           {suggestions && (
             <div>
-              <h3 className="text-md font-semibold text-slate-800 dark:text-slate-200 mb-2">Suggested Organization</h3>
+              <h3 className="text-md font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                Suggested Organization
+              </h3>
               <div className="space-y-2 max-h-60 overflow-y-auto p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
-                {suggestions.map(group => (
+                {suggestions.map((group) => (
                   <div key={group.id}>
-                    <p className="font-semibold text-sm text-slate-700 dark:text-slate-300">{group.name}</p>
+                    <p className="font-semibold text-sm text-slate-700 dark:text-slate-300">
+                      {group.name}
+                    </p>
                     <ul className="list-disc list-inside pl-2 text-sm text-slate-600 dark:text-slate-400">
-                      {group.tabs.map(tab => <li key={tab.id}>{tab.title}</li>)}
+                      {group.tabs.map((tab) => (
+                        <li key={tab.id}>{tab.title}</li>
+                      ))}
                     </ul>
                   </div>
                 ))}
@@ -97,18 +119,21 @@ export function AISorterModal({ tabs, groups, onApply, onClose }: AISorterModalP
         </main>
 
         <footer className="p-4 border-t border-slate-200 dark:border-slate-800 flex-shrink-0 flex justify-end items-center gap-2">
-          <button onClick={onClose} className="text-slate-600 dark:text-slate-400 font-semibold py-2 px-4 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <button
+            onClick={onClose}
+            className="text-slate-600 dark:text-slate-400 font-semibold py-2 px-4 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
             Cancel
           </button>
           {suggestions ? (
-            <button 
+            <button
               onClick={() => onApply(suggestions)}
               className="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
             >
               Apply Suggestions
             </button>
           ) : (
-            <button 
+            <button
               onClick={handleGenerateSuggestions}
               disabled={isLoading}
               className="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-300 dark:disabled:bg-indigo-900/50 flex items-center gap-2"
